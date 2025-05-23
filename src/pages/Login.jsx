@@ -7,47 +7,63 @@ export default function Login() {
   const [role, setRole] = useState("Homeowner");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (!email) return alert("Enter email");
+    if (!email) {
+      setError("Please enter your email.");
+      return;
+    }
     login(email, role);
     navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-6 rounded shadow-md w-full max-w-sm"
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-100 to-purple-200 px-4">
+      <div className="bg-white w-full max-w-md rounded-3xl shadow-xl p-8 space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-blue-700">Login</h2>
+          <p className="text-sm text-gray-500">Access your smart lock dashboard</p>
+        </div>
 
-        <label className="block mb-2 font-medium">Email</label>
-        <input
-          type="email"
-          className="w-full p-2 border rounded mb-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        {error && (
+          <div className="bg-red-100 text-red-700 px-4 py-2 rounded text-sm">
+            {error}
+          </div>
+        )}
 
-        <label className="block mb-2 font-medium">Role</label>
-        <select
-          className="w-full p-2 border rounded mb-6"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option>Homeowner</option>
-          <option>Guest</option>
-        </select>
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Log In
-        </button>
-      </form>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <select
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option>Homeowner</option>
+              <option>Guest</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+          >
+            Log In
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
